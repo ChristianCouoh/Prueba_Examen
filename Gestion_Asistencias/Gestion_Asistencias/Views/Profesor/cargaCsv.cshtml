@@ -1,0 +1,70 @@
+﻿
+@using Gestion_Asistencias.Models
+@model IEnumerable<Gestion_Asistencias.Models.Profesores>
+
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Carga Empleados desde LayOut</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" name="contenido" id="contenido">
+            <!-- Si el modelo esta vacio muestro boton de descarga-->
+            @if (Model.Count() == 0)
+            {
+                using (Html.BeginForm("CargaCsv", "Profesor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+
+                    <input type="file" name="postedFile" />
+                    <input type="submit" value="Importar" />
+                }
+            }
+
+            <hr/>
+            <!-- Si el modelo no esta vacio genero una tabla con la información cargada-->
+            @if(Model.Count()>0)
+            { 
+
+            <table id="cargado" class="table table-bordered table-selected">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOMBRE</th>
+                        <th>DIRECCION</th>
+                        <th>TELEFONO</th>
+
+                    </tr>
+                </thead>
+             
+                    @foreach (Profesores p in Model)
+                    {
+                        <tr>
+                            <td>@p.id</td>
+                            <td>@p.Nombre</td>
+                            <td>@p.Telefono</td>
+                            <td>@p.Direccion</td>
+                        </tr>
+                    }
+               
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOMBRE</th>
+                        <th>DIRECCION</th>
+                        <th>TELEFONO</th>
+                    </tr>
+                </tfoot>
+            </table>
+            }
+
+           @Html.ActionLink("Descargar LayOut para luego volver a Cargar", "descarga", "Profesor");
+        </div>
+       
+    </div>
+</div>
+
+
